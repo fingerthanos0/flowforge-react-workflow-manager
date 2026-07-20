@@ -7,6 +7,7 @@ import { applicationSchema } from './schemas/applicationSchema'
 import { defaultValues } from './defaults'
 import { WIZARD_STEPS } from './constants'
 import { UserInfoStep } from './components/UserInfoStep'
+import { RequestConfigurationStep } from './components/RequestConfigurationStep'
 import { useApplicationWizard } from './hooks/useApplicationWizard'
 import type { ApplicationFormValues } from './types'
 
@@ -46,7 +47,8 @@ function ApplicationWizardContent() {
         onStepSelect={goToCompletedStep}
       />
       {currentStep === 0 && <UserInfoStep />}
-      {currentStep > 0 && (
+      {currentStep === 1 && <RequestConfigurationStep />}
+      {currentStep > 1 && (
         <p>Step content for &quot;{WIZARD_STEPS[currentStep].id}&quot; is not built yet.</p>
       )}
       <WizardActions
