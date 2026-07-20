@@ -1,10 +1,7 @@
+import { ApplicationWizardPage } from '@/features/application-wizard/ApplicationWizardPage'
+
 function App() {
-  return (
-    <div>
-      <h1>FlowForge</h1>
-      <p>Application &amp; contract request wizard — under construction.</p>
-    </div>
-  )
+  return <ApplicationWizardPage />
 }
 
 export default App
