@@ -5,6 +5,7 @@ import { WizardLayout } from '@/components/wizard/WizardLayout'
 import { applicationSchema } from './schemas/applicationSchema'
 import { defaultValues } from './defaults'
 import { WIZARD_STEPS } from './constants'
+import { UserInfoStep } from './components/UserInfoStep'
 import type { ApplicationFormValues } from './types'
 
 export function ApplicationWizardPage() {
@@ -21,7 +22,10 @@ export function ApplicationWizardPage() {
   return (
     <FormProvider {...form}>
       <WizardLayout stepLabel={WIZARD_STEPS[currentStep].label}>
-        <p>Step content for &quot;{WIZARD_STEPS[currentStep].id}&quot; is not built yet.</p>
+        {currentStep === 0 && <UserInfoStep />}
+        {currentStep > 0 && (
+          <p>Step content for &quot;{WIZARD_STEPS[currentStep].id}&quot; is not built yet.</p>
+        )}
       </WizardLayout>
     </FormProvider>
   )
