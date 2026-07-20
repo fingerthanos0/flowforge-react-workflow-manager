@@ -16,10 +16,10 @@ export type UseApplicationWizardResult = {
   goToCompletedStep: (step: number) => void
 }
 
-export function useApplicationWizard(): UseApplicationWizardResult {
+export function useApplicationWizard(initialStep = 0): UseApplicationWizardResult {
   const { trigger } = useFormContext<ApplicationFormValues>()
-  const [currentStep, setCurrentStep] = useState(0)
-  const [highestCompletedStep, setHighestCompletedStep] = useState(-1)
+  const [currentStep, setCurrentStep] = useState(initialStep)
+  const [highestCompletedStep, setHighestCompletedStep] = useState(initialStep - 1)
 
   const goNext = useCallback(async () => {
     const fields = STEP_FIELDS[currentStep as keyof typeof STEP_FIELDS] as
