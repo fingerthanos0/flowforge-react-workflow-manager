@@ -8,6 +8,7 @@ import { defaultValues } from './defaults'
 import { WIZARD_STEPS } from './constants'
 import { UserInfoStep } from './components/UserInfoStep'
 import { RequestConfigurationStep } from './components/RequestConfigurationStep'
+import { ReviewStep } from './components/ReviewStep'
 import { useApplicationWizard } from './hooks/useApplicationWizard'
 import type { ApplicationFormValues } from './types'
 
@@ -48,8 +49,11 @@ function ApplicationWizardContent() {
       />
       {currentStep === 0 && <UserInfoStep />}
       {currentStep === 1 && <RequestConfigurationStep />}
-      {currentStep > 1 && (
-        <p>Step content for &quot;{WIZARD_STEPS[currentStep].id}&quot; is not built yet.</p>
+      {currentStep === 2 && (
+        <ReviewStep
+          onEditUserInfo={() => goToCompletedStep(0)}
+          onEditRequestConfiguration={() => goToCompletedStep(1)}
+        />
       )}
       <WizardActions
         isFirstStep={isFirstStep}
