@@ -1,5 +1,6 @@
 import { useFormContext } from 'react-hook-form'
 import { Card, CardContent, IconButton, MenuItem, Stack, TextField, Typography } from '@mui/material'
+import { scrollFocusedFieldIntoView } from '@/utils/scrollFocusedFieldIntoView'
 import type { ApplicationFormValues } from '../types'
 
 type ServiceItemCardProps = {
@@ -31,6 +32,7 @@ export function ServiceItemCard({ index, onRemove }: ServiceItemCardProps) {
             fullWidth
             error={!!itemErrors?.serviceName}
             helperText={itemErrors?.serviceName?.message}
+            onFocus={(event) => scrollFocusedFieldIntoView(event.currentTarget)}
             {...register(`requestConfiguration.services.${index}.serviceName`)}
           />
 
@@ -41,6 +43,7 @@ export function ServiceItemCard({ index, onRemove }: ServiceItemCardProps) {
             minRows={2}
             error={!!itemErrors?.description}
             helperText={itemErrors?.description?.message}
+            onFocus={(event) => scrollFocusedFieldIntoView(event.currentTarget)}
             {...register(`requestConfiguration.services.${index}.description`)}
           />
 
@@ -50,6 +53,7 @@ export function ServiceItemCard({ index, onRemove }: ServiceItemCardProps) {
             fullWidth
             error={!!itemErrors?.quantity}
             helperText={itemErrors?.quantity?.message}
+            onFocus={(event) => scrollFocusedFieldIntoView(event.currentTarget)}
             {...register(`requestConfiguration.services.${index}.quantity`, {
               valueAsNumber: true,
             })}

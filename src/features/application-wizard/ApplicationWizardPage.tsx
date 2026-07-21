@@ -15,9 +15,11 @@ import { RequestConfigurationStep } from './components/RequestConfigurationStep'
 import { ReviewStep } from './components/ReviewStep'
 import { useApplicationWizard } from './hooks/useApplicationWizard'
 import { useDraftAutosave } from './hooks/useDraftAutosave'
+import { useMobileViewport } from './hooks/useMobileViewport'
 import type { ApplicationFormValues } from './types'
 
 export function ApplicationWizardPage() {
+  useMobileViewport()
   const [restoredDraft] = useState(() => readDraft())
 
   const form = useForm<ApplicationFormValues>({

@@ -1,5 +1,6 @@
 import { useFormContext } from 'react-hook-form'
 import { Stack, TextField } from '@mui/material'
+import { scrollFocusedFieldIntoView } from '@/utils/scrollFocusedFieldIntoView'
 import type { ApplicationFormValues } from '../types'
 
 export function UserInfoStep() {
@@ -16,6 +17,7 @@ export function UserInfoStep() {
         fullWidth
         error={!!errors.userInfo?.name}
         helperText={errors.userInfo?.name?.message}
+        onFocus={(event) => scrollFocusedFieldIntoView(event.currentTarget)}
         {...register('userInfo.name')}
       />
       <TextField
@@ -26,6 +28,7 @@ export function UserInfoStep() {
         fullWidth
         error={!!errors.userInfo?.phone}
         helperText={errors.userInfo?.phone?.message}
+        onFocus={(event) => scrollFocusedFieldIntoView(event.currentTarget)}
         {...register('userInfo.phone')}
       />
       <TextField
@@ -36,6 +39,7 @@ export function UserInfoStep() {
         fullWidth
         error={!!errors.userInfo?.email}
         helperText={errors.userInfo?.email?.message}
+        onFocus={(event) => scrollFocusedFieldIntoView(event.currentTarget)}
         {...register('userInfo.email')}
       />
     </Stack>
