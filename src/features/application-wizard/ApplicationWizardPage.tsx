@@ -8,6 +8,7 @@ import { readDraft } from '@/storage/draftStorage'
 import { applicationSchema } from './schemas/applicationSchema'
 import { defaultValues } from './defaults'
 import { WIZARD_STEPS } from './constants'
+import { getHighestReachableStep } from './getHighestReachableStep'
 import { UserInfoStep } from './components/UserInfoStep'
 import { RequestConfigurationStep } from './components/RequestConfigurationStep'
 import { ReviewStep } from './components/ReviewStep'
@@ -26,9 +27,13 @@ export function ApplicationWizardPage() {
     shouldFocusError: true,
   })
 
+  const initialStep = restoredDraft
+    ? Math.min(restoredDraft.currentStep, getHighestReachableStep(restoredDraft.values))
+    : 0
+
   return (
     <FormProvider {...form}>
-      <ApplicationWizardContent initialStep={restoredDraft?.currentStep ?? 0} />
+      <ApplicationWizardContent initialStep={initialStep} />
     </FormProvider>
   )
 }
