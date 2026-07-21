@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Box } from '@mui/material'
 import { WizardLayout } from '@/components/wizard/WizardLayout'
 import { WizardStepper } from '@/components/wizard/WizardStepper'
 import { WizardActions } from '@/components/wizard/WizardActions'
@@ -47,12 +48,18 @@ function ApplicationWizardContent({ initialStep }: { initialStep: number }) {
     goNext,
     goPrevious,
     goToCompletedStep,
+    submissionStatus,
+    submit,
   } = useApplicationWizard(initialStep)
 
   useDraftAutosave(currentStep)
 
   return (
     <WizardLayout stepLabel={WIZARD_STEPS[currentStep].label}>
+      <Box role="status" aria-live="polite">
+        {submissionStatus === 'success' && 'Application submitted successfully.'}
+        {submissionStatus === 'error' && 'Submission failed. Please try again.'}
+      </Box>
       <WizardStepper
         steps={WIZARD_STEPS}
         currentStep={currentStep}
@@ -70,8 +77,10 @@ function ApplicationWizardContent({ initialStep }: { initialStep: number }) {
       <WizardActions
         isFirstStep={isFirstStep}
         isLastStep={isLastStep}
+        isSubmitting={submissionStatus === 'submitting'}
         onPrevious={goPrevious}
         onNext={goNext}
+        onSubmit={submit}
       />
     </WizardLayout>
   )

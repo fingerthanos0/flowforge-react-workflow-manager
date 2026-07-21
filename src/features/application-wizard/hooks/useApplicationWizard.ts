@@ -1,10 +1,15 @@
 import { useCallback, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import type { Path } from 'react-hook-form'
+import { clearDraft } from '@/storage/draftStorage'
 import { STEP_FIELDS, WIZARD_STEPS } from '../constants'
+import { defaultValues } from '../defaults'
+import { submitApplication } from '../services/submitApplication'
 import type { ApplicationFormValues } from '../types'
 
 const LAST_STEP = WIZARD_STEPS.length - 1
+
+export type SubmissionStatus = 'idle' | 'submitting' | 'success' | 'error'
 
 export type UseApplicationWizardResult = {
   currentStep: number
@@ -14,12 +19,15 @@ export type UseApplicationWizardResult = {
   goNext: () => Promise<void>
   goPrevious: () => void
   goToCompletedStep: (step: number) => void
+  submissionStatus: SubmissionStatus
+  submit: () => void
 }
 
 export function useApplicationWizard(initialStep = 0): UseApplicationWizardResult {
-  const { trigger } = useFormContext<ApplicationFormValues>()
+  const { trigger, handleSubmit, reset } = useFormContext<ApplicationFormValues>()
   const [currentStep, setCurrentStep] = useState(initialStep)
   const [highestCompletedStep, setHighestCompletedStep] = useState(initialStep - 1)
+  const [submissionStatus, setSubmissionStatus] = useState<SubmissionStatus>('idle')
 
   const goNext = useCallback(async () => {
     const fields = STEP_FIELDS[currentStep as keyof typeof STEP_FIELDS] as
@@ -49,6 +57,27 @@ export function useApplicationWizard(initialStep = 0): UseApplicationWizardResul
     [highestCompletedStep],
   )
 
+  const submit = useCallback(() => {
+    if (submissionStatus === 'submitting') {
+      return
+    }
+
+    void handleSubmit(async (values) => {
+      setSubmissionStatus('submitting')
+
+      try {
+        await submitApplication(values)
+        clearDraft()
+        reset(defaultValues)
+        setCurrentStep(0)
+        setHighestCompletedStep(-1)
+        setSubmissionStatus('success')
+      } catch {
+        setSubmissionStatus('error')
+      }
+    })()
+  }, [handleSubmit, reset, submissionStatus])
+
   return {
     currentStep,
     highestCompletedStep,
@@ -57,5 +86,7 @@ export function useApplicationWizard(initialStep = 0): UseApplicationWizardResul
     goNext,
     goPrevious,
     goToCompletedStep,
+    submissionStatus,
+    submit,
   }
 }
