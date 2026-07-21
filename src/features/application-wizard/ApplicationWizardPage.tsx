@@ -55,7 +55,19 @@ function ApplicationWizardContent({ initialStep }: { initialStep: number }) {
   useDraftAutosave(currentStep)
 
   return (
-    <WizardLayout stepLabel={WIZARD_STEPS[currentStep].label}>
+    <WizardLayout
+      stepLabel={WIZARD_STEPS[currentStep].label}
+      actions={
+        <WizardActions
+          isFirstStep={isFirstStep}
+          isLastStep={isLastStep}
+          isSubmitting={submissionStatus === 'submitting'}
+          onPrevious={goPrevious}
+          onNext={goNext}
+          onSubmit={submit}
+        />
+      }
+    >
       <Box role="status" aria-live="polite">
         {submissionStatus === 'success' && 'Application submitted successfully.'}
         {submissionStatus === 'error' && 'Submission failed. Please try again.'}
@@ -74,14 +86,6 @@ function ApplicationWizardContent({ initialStep }: { initialStep: number }) {
           onEditRequestConfiguration={() => goToCompletedStep(1)}
         />
       )}
-      <WizardActions
-        isFirstStep={isFirstStep}
-        isLastStep={isLastStep}
-        isSubmitting={submissionStatus === 'submitting'}
-        onPrevious={goPrevious}
-        onNext={goNext}
-        onSubmit={submit}
-      />
     </WizardLayout>
   )
 }

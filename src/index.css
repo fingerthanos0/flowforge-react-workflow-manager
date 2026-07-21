@@ -16,3 +16,24 @@ body {
   margin: 0;
   font-family: system-ui, 'Segoe UI', Roboto, sans-serif;
 }
+
+.wizard-page {
+  min-height: var(--visual-viewport-height, 100dvh);
+  display: flex;
+  flex-direction: column;
+}
+
+.wizard-content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 16px;
+  padding-bottom: calc(var(--wizard-action-height, 80px) + env(safe-area-inset-bottom) + 16px);
+}
+
+.wizard-actions {
+  position: sticky;
+  bottom: 0;
+  z-index: 10;
+  padding: 16px;
+  padding-bottom: calc(16px + env(safe-area-inset-bottom));
+}

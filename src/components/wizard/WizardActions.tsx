@@ -18,7 +18,16 @@ export function WizardActions({
   onSubmit,
 }: WizardActionsProps) {
   return (
-    <Stack direction="row" sx={{ justifyContent: 'space-between' }} className="wizard-actions">
+    <Stack
+      direction="row"
+      sx={{
+        justifyContent: 'space-between',
+        bgcolor: 'background.default',
+        borderTop: 1,
+        borderColor: 'divider',
+      }}
+      className="wizard-actions"
+    >
       <Button
         type="button"
         variant="outlined"
