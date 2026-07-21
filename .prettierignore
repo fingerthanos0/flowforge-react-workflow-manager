@@ -1,0 +1,6 @@
+dist
+coverage
+node_modules
+
+# planning doc — not part of the app, keep its own formatting
+flowforge-development-plan.md
